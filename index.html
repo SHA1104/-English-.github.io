@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>七年级英语词汇测试</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    
+    <!-- Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#FF7D00',
+                        neutral: {
+                            100: '#F5F7FA',
+                            200: '#E5E6EB',
+                            300: '#C9CDD4',
+                            400: '#86909C',
+                            500: '#4E5969',
+                            600: '#272E3B',
+                            700: '#1D2129',
+                        }
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        'card-hover': '0 10px 30px rgba(22, 93, 255, 0.15)',
+                    }
+                },
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #165DFF 0%, #0040C9 100%);
+            }
+            .transition-custom {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .scale-hover {
+                transition: transform 0.2s ease;
+            }
+            .scale-hover:hover {
+                transform: scale(1.02);
+            }
+        }
+    </style>
+</head>
+<body class="bg-neutral-100 font-inter text-neutral-700 min-h-screen">
+    <!-- 顶部导航栏 -->
+    <header class="bg-gradient-primary text-white shadow-md fixed w-full top-0 z-50 transition-all duration-300" id="header">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-book-open text-2xl"></i>
+                <h1 class="text-xl md:text-2xl font-bold">七年级英语词汇测试</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="hidden md:flex items-center space-x-2">
+                    <i class="fa-solid fa-question-circle"></i>
+                    <span id="progress-text">第 <span id="current-question">1</span> 题 / 共 30 题</span>
+                </div>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/20 transition-all">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 pt-24 pb-20">
+        <div id="question-container" class="max-w-3xl mx-auto bg-white rounded-xl shadow-card p-6 md:p-8 mb-6 transition-all duration-500">
+            <!-- 题目卡片 -->
+            <div class="mb-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-primary/10 text-primary rounded-full w-10 h-10 flex items-center justify-center mr-3">
+                        <span id="question-number" class="font-bold">1</span>
+                    </div>
+                    <h2 class="text-xl md:text-2xl font-semibold text-neutral-700">选择合适的单词填空</h2>
+                </div>
+                
+                <div id="question-text" class="text-lg md:text-xl mb-6 leading-relaxed bg-neutral-50 p-4 rounded-lg border border-neutral-200">
+                    She will ______ her hand to say goodbye.
+                </div>
+                
+                <div id="options-container" class="space-y-3">
+                    <label class="option-label block p-4 border border-neutral-200 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all scale-hover">
+                        <input type="radio" name="question" value="A" class="option-input mr-3">
+                        <span class="option-letter font-medium">A.</span>
+                        <span class="option-text">wave</span>
+                    </label>
+                    <label class="option-label block p-4 border border-neutral-200 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all scale-hover">
+                        <input type="radio" name="question" value="B" class="option-input mr-3">
+                        <span class="option-letter font-medium">B.</span>
+                        <span class="option-text">voice</span>
+                    </label>
+                    <label class="option-label block p-4 border border-neutral-200 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all scale-hover">
+                        <input type="radio" name="question" value="C" class="option-input mr-3">
+                        <span class="option-letter font-medium">C.</span>
+                        <span class="option-text">fall</span>
+                    </label>
+                    <label class="option-label block p-4 border border-neutral-200 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all scale-hover">
+                        <input type="radio" name="question" value="D" class="option-input mr-3">
+                        <span class="option-letter font-medium">D.</span>
+                        <span class="option-text">smile</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- 解释区域 (默认隐藏) -->
+            <div id="explanation-container" class="mt-6 p-4 bg-neutral-50 rounded-lg border border-neutral-200 hidden">
+                <div class="flex items-center mb-2">
+                    <i class="fa-solid fa-lightbulb text-secondary mr-2"></i>
+                    <h3 class="font-medium text-neutral-700">答案解析</h3>
+                </div>
+                <p id="explanation-text" class="text-neutral-600">正确答案是 A. wave。"wave" 意为挥动，符合语境 "挥手告别"。</p>
+            </div>
+            
+            <!-- 底部按钮 -->
+            <div class="flex justify-between items-center mt-8">
+                <button id="prev-btn" class="px-6 py-2.5 bg-white border border-neutral-300 text-neutral-600 rounded-lg hover:bg-neutral-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center">
+                    <i class="fa-solid fa-arrow-left mr-2"></i>
+                    上一题
+                </button>
+                <button id="next-btn" class="px-6 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg flex items-center">
+                    下一题
+                    <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 进度条 -->
+        <div class="max-w-3xl mx-auto">
+            <div class="h-2 bg-neutral-200 rounded-full overflow-hidden">
+                <div id="progress-bar" class="h-full bg-primary transition-all duration-500" style="width: 3.33%"></div>
+            </div>
+            <div class="flex justify-between mt-2 text-sm text-neutral-500">
+                <span>开始</span>
+                <span id="progress-percentage">3%</span>
+                <span>完成</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-neutral-700 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-2">七年级英语词汇测试 &copy; 2025</p>
+            <p class="text-neutral-400 text-sm">专注于英语基础词汇学习与巩固</p>
+        </div>
+    </footer>
+
+    <!-- 结果弹窗 -->
+    <div id="result-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+            <div class="text-center mb-6">
+                <div id="result-icon" class="w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-check text-3xl"></i>
+                </div>
+                <h3 id="result-title" class="text-2xl font-bold text-neutral-700">回答正确！</h3>
+                <p id="result-message" class="text-neutral-500 mt-2">做得好！继续加油。</p>
+            </div>
+            <button id="close-modal" class="w-full py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg">
+                继续
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 英语词汇测试数据
+        const questions = [
+            {
+                id: 1,
+                text: "She will ______ her hand to say goodbye.",
+                options: [
+                    { letter: "A", text: "wave" },
+                    { letter: "B", text: "voice" },
+                    { letter: "C", text: "fall" },
+                    { letter: "D", text: "smile" }
+                ],
+                answer: "A",
+                explanation: "正确答案是 A. wave。\"wave\" 意为挥动，符合语境 \"挥手告别\"。"
+            },
+            {
+                id: 2,
+                text: "He spoke in a low ______ so no one could hear him.",
+                options: [
+                    { letter: "A", text: "wave" },
+                    { letter: "B", text: "voice" },
+                    { letter: "C", text: "shame" },
+                    { letter: "D", text: "office" }
+                ],
+                answer: "B",
+                explanation: "正确答案是 B. voice。\"voice\" 意为嗓音，符合语境 \"低声说话\"。"
+            },
+            {
+                id: 3,
+                text: "This bag is ______ for carrying books, nothing else.",
+                options: [
+                    { letter: "A", text: "finally" },
+                    { letter: "B", text: "himself" },
+                    { letter: "C", text: "just" },
+                    { letter: "D", text: "smart" }
+                ],
+                answer: "C",
+                explanation: "正确答案是 C. just。\"just\" 意为只是、仅仅，符合语境 \"这个包只是用来装书的\"。"
+            },
+            {
+                id: 4,
+                text: "Tom hurt ______ when he fell off the bike.",
+                options: [
+                    { letter: "A", text: "himself" },
+                    { letter: "B", text: "itself" },
+                    { letter: "C", text: "myself" },
+                    { letter: "D", text: "yourself" }
+                ],
+                answer: "A",
+                explanation: "正确答案是 A. himself。hurt oneself 表示伤到自己，Tom 是男性，所以用 himself。"
+            },
+            {
+                id: 5,
+                text: "She felt ______ because she forgot her friend's birthday.",
+                options: [
+                    { letter: "A", text: "surprised" },
+                    { letter: "B", text: "shame" },
+                    { letter: "C", text: "smart" },
+                    { letter: "D", text: "finally" }
+                ],
+                answer: "B",
+                explanation: "正确答案是 B. shame。\"shame\" 意为羞愧，符合语境 \"因忘记朋友生日而感到羞愧\"。"
+            },
+            {
+                id: 6,
+                text: "______, they finished the work after hours of hard work.",
+                options: [
+                    { letter: "A", text: "Just" },
+                    { letter: "B", text: "Into" },
+                    { letter: "C", text: "Finally" },
+                    { letter: "D", text: "Receive" }
+                ],
+                answer: "C",
+                explanation: "正确答案是 C. Finally。\"Finally\" 意为最后、终于，符合语境 \"经过几小时的努力工作后，他们终于完成了任务\"。"
+            },
+            {
+                id: 7,
+                text: "The boy jumped ______ the pool and started swimming.",
+                options: [
+                    { letter: "A", text: "into" },
+                    { letter: "B", text: "onto" },
+                    { letter: "C", text: "over" },
+                    { letter: "D", text: "above" }
+                ],
+                answer: "A",
+                explanation: "正确答案是 A. into。\"jump into\" 表示跳进，符合语境 \"男孩跳进游泳池开始游泳\"。"
+            },
+            {
+                id: 8,
+                text: "My father goes to the ______ every month to cut his hair.",
+                options: [
+                    { letter: "A", text: "customer" },
+                    { letter: "B", text: "barber" },
+                    { letter: "C", text: "office" },
+                    { letter: "D", text: "scissors" }
+                ],
+                answer: "B",
+                explanation: "正确答案是 B. barber。\"barber\" 意为理发师，符合语境 \"我父亲每月去理发店剪头发\"。"
+            },
+            {
+                id: 9,
+                text: "Leaves ______ from the trees in autumn.",
+                options: [
+                    { letter: "A", text: "wave" },
+                    { letter: "B", text: "fall" },
+                    { letter: "C", text: "smile" },
+                    { letter: "D", text: "receive" }
+                ],
+                answer: "B",
+                explanation: "正确答案是 B. fall。\"fall\" 意为落下，符合语境 \"秋天树叶从树上落下\"。"
+            },
+            {
+                id: 10,
+                text: "He carried the heavy box on his ______.",
+                options: [
+                    { letter: "A", text: "shoulder" },
+                    { letter: "B", text: "voice" },
+                    { letter: "C", text: "wig" },
+                    { letter: "D", text: "cancer" }
+                ],
+                answer: "A",
+                explanation: "正确答案是 A. shoulder。\"shoulder\" 意为肩膀，符合语境 \"他用肩膀扛着重箱子\"。"
+            },
+            {
+                id: 11,
+                text: "The ______ was happy with the service with the new restaurant.",
+                options: [
+                    { letter: "A", text: "barber" },
+                    { letter: "B", text: "customer" },
+                    { letter: "C", text: "scissors" },
+                    { letter: "D", text: "office" }
+                ],
+                answer: "B",
+                explanation: "正确答案是 B. customer。\"customer\" 意为顾客，符合语境 \"顾客对新餐厅的服务很满意\"。"
+            },
+            {
+                id: 12,
+                text: "We were ______ when he told us he won the game.",
+                options: [
+                    { letter: "A", text: "surprised" },
+                    { letter: "B", text: "smart" },
+                    { letter: "C", text: "shame" },
+                    { letter: "D", text: "finally" }
+                ],
+                answer: "A",
+                explanation: "正确答案是 A. surprised。\"surprised\" 意为惊讶的，符合语境 \"当他告诉我们他赢了比赛时，我们很惊讶\"。"
+            },
+            {
+                id: 13,
+                text: "Please pass me the ______ to cut the paper.",
+                options: [
+                    { letter: "A", text: "wig" },
+                    { letter: "B", text: "scissors" },
+                    { letter: "C", text: "voice" },
+                    { letter: "D", text: "fall" }
+                ],
+                answer: "B",
+                explanation: "正确答案是 B. scissors。\"scissors\" 意为剪刀，符合语境 \"请递给我剪刀来剪纸\"。"
+            },
+            {
+                id: 14,
+                text: "My mom works in an ______ near the park.",
+                options: [
+                    { letter: "A", text: "office" },
+                    { letter: "B", text: "barber" },
+                    { letter: "C", text: "customer" },
+                    { letter: "D", text: "cancer" }
+                ],
+                answer: "A",
+                explanation: "正确答案是 A. office。\"office\" 意为办公室，符合语境 \"我妈妈在公园附近的一家公司工作\"。"
+            },
+            {
+                id: 15,
+                text: "Did you ______ a present from your friend?",
+                options: [
+                    { letter: "A", text: "wave" },
+                    { letter: "B", text: "receive" },
+                    { letter: "C", text: "fall" },
+                    { letter: "D", text: "smile" }
+                ],
+                answer: "B",
+                explanation: "正确答案是 B. receive。\"receive\" 意为收到，符合语境 \"你收到朋友的礼物了吗？\"。"
+            },
+            {
+                id: 16,
+                text: "Her grandma is fighting ______ and she is very brave.",
+                options: [
+                    { letter: "A", text: "cancer" },
+                    { letter: "B", text: "wig" },
+                    { letter: "C", text: "shame" },
+                    { letter: "D", text: "voice" }
+                ],
+                answer: "A",
+                explanation: "正确答案是 A. cancer。\"cancer\" 意为癌症，符合语境 \"她的奶奶正在与癌症作斗争，她非常勇敢\"。"
+            },
+            {
+                id: 17,
+                text: "She wears a ______ because her hair is short.",
+                options: [
+                    { letter: "A", text: "scissors" },
+                    { letter: "B", text: "customer" },
+                    { letter: "C", text: "wig" },
+                    { letter: "D", text: "office" }
+                ],
+                answer: "C",
+                explanation: "正确答案是 C. wig。\"wig\" 意为假发，符合语境 \"她戴假发是因为她的头发很短\"。"
+            },
+            {
+                id: 18,
+                text: "He is very ______ and can solve difficult math problems.",
+                options: [
+                    { letter: "A", text: "smart" },
+                    { letter: "B", text: "surprised" },
+                    { letter: "C", text: "finally" },
+                    { letter: "D", text: "just" }
+                ],
+                answer: "A",
+                explanation: "正确答案是 A. smart。\"smart\" 意为聪明的，符合语境 \"他非常聪明，能解决难题\"。"
+            },
+            {
+                id: 19,
+                text: "She gave me a big ______ when she saw me.",
+                options: [
+                    { letter: "A", text: "wave" },
+                    { letter: "B", text: "smile" },
+                    { letter: "C", text: "voice" },
+                    { letter: "D", text: "fall" }
+                ],
+                answer: "B",
+                explanation: "正确答案是 B. smile。\"smile\" 意为微笑，符合语境 \"她看到我时给了我一个大大的微笑\"。"
+            },
+            {
+                id: 20,
+                text: "The singer lost her ______ after a bad cold.",
+                options: [
+                    { letter: "A", text: "voice" },
+                    { letter: "B", text: "wave" },
+                    { letter: "C", text: "scissors" },
+                    { letter: "D", text: "customer" }
+                ],
+                answer: "A",
+                explanation: "正确答案是 A. voice。\"voice\" 意为嗓音，符合语境 \"这位歌手重感冒后失去了嗓音\"。"
+            },
+            {
+                id: 21,
+                text: "Don't play with ______; you might cut yourself.",
+                options: [
+                    { letter: "A", text: "himself" },
+                    { letter: "B", text: "scissors" },
+                    { letter: "C", text: "wig" },
+                    { letter: "D", text: "shoulder" }
+                ],
+                answer: "B",
+                explanation: "正确答案是 B. scissors。\"scissors\" 意为剪刀，符合语境 \"不要玩剪刀，你可能会割伤自己\"。"
+            },
+            {
+                id: 22,
+                text: "______ the room and take a seat, please.",
+                options: [
+                    { letter: "A", text: "Into" },
+                    { letter: "B", text: "Just" },
+                    { letter: "C", text: "Enter into" },
+                    { letter: "D", text: "Go into" }
+                ],
+                answer: "D",
+                explanation: "正确答案是 D. Go into。\"Go into\" 意为进入，符合语境 \"请进房间坐下\"。"
+            },
+            {
+                id: 23,
+                text: "The ______ cut the man's hair very carefully.",
+                options: [
+                    { letter: "A", text: "customer" },
+                    { letter: "B", text: "office" },
+                    { letter: "C", text: "barber" },
+                    { letter: "D", text: "cancer" }
+                ],
+                answer: "C",
+                explanation: "正确答案是 C. barber。\"barber\" 意为理发师，符合语境 \"理发师非常仔细地为这位男士剪头发\"。"
+            },
+            {
+                id: 24,
+                text: "He carried the bag on his ______ and walked away.",
+                options: [
+                    { letter: "A", text: "shoulder" },
+                    { letter: "B", text: "voice" },
+                    { letter: "C", text: "fall" },
+                    { letter: "D", text: "smile" }
+                ],
+                answer: "A",
+                explanation: "正确答案是 A. shoulder。\"shoulder\" 意为肩膀，符合语境 \"他把包扛在肩上走开了\"。"
+            },
+            {
+                id: 25,
+                text: "They were ______ to see a deer in the city park.",
+                options: [
+                    { letter: "A", text: "shame" },
+                    { letter: "B", text: "surprised" },
+                    { letter: "C", text: "smart" },
+                    { letter: "D", text: "finally" }
+                ],
+                answer: "B",
+                explanation: "正确答案是 B. surprised。\"surprised\" 意为惊讶的，符合语境 \"他们在城市公园里看到一只鹿感到很惊讶\"。"
+            },
+            {
+                id: 26,
+                text: "The project was ______ a way to help poor children.",
+                options: [
+                    { letter: "A", text: "just" },
+                    { letter: "B", text: "into" },
+                    { letter: "C", text: "receive" },
+                    { letter: "D", text: "wave" }
+                ],
+                answer: "A",
+                explanation: "正确答案是 A. just。\"just\" 意为只是，符合语境 \"这个项目只是帮助贫困儿童的一种方式\"。"
+            },
+            {
+                id: 27,
+                text: "She bought a new ______ for the party.",
+                options: [
+                    { letter: "A", text: "scissors" },
+                    { letter: "B", text: "wig" },
+                    { letter: "C", text: "office" },
+                    { letter: "D", text: "customer" }
+                ],
+                answer: "B",
+                explanation: "正确答案是 B. wig。\"wig\" 意为假发，符合语境 \"她为派对买了一顶新假发\"。"
+            },
+            {
+                id: 28,
+                text: "______, he realized he was wrong and said sorry.",
+                options: [
+                    { letter: "A", text: "Just" },
+                    { letter: "B", text: "Into" },
+                    { letter: "C", text: "Finally" },
+                    { letter: "D", text: "Himself" }
+                ],
+                answer: "C",
+                explanation: "正确答案是 C. Finally。\"Finally\" 意为最后，符合语境 \"最后，他意识到自己错了并道了歉\"。"
+            },
+            {
+                id: 29,
+                text: "The girl ______ at her friend and waved hello.",
+                options: [
+                    { letter: "A", text: "fall" },
+                    { letter: "B", text: "smile" },
+                    { letter: "C", text: "smiled" },
+                    { letter: "D", text: "waves" }
+                ],
+                answer: "C",
+                explanation: "正确答案是 C. smiled。句子时态为过去时，因此用 \"smiled\"，意为 \"女孩对她的朋友微笑并挥手打招呼\"。"
+            },
+            {
+                id: 30,
+                text: "He can fix the bike ______ because he is good at it.",
+                options: [
+                    { letter: "A", text: "himself" },
+                    { letter: "B", text: "herself" },
+                    { letter: "C", text: "themselves" },
+                    { letter: "D", text: "itself" }
+                ],
+                answer: "A",
+                explanation: "正确答案是 A. himself。\"himself\" 是反身代词，符合语境 \"他自己能修理自行车，因为他擅长这个\"。"
+            }
+        ];
+
+        // 当前题目索引
+        let currentQuestionIndex = 0;
+        // 用户答案记录
+        const userAnswers = new Array(questions.length).fill(null);
+        
+        // DOM 元素
+        const questionNumberEl = document.getElementById('question-number');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainerEl = document.getElementById('options-container');
+        const explanationContainerEl = document.getElementById('explanation-container');
+        const explanationTextEl = document.getElementById('explanation-text');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBarEl = document.getElementById('progress-bar');
+        const progressPercentageEl = document.getElementById('progress-percentage');
+        const currentQuestionEl = document.getElementById('current-question');
+        const resultModalEl = document.getElementById('result-modal');
+        const modalContentEl = document.getElementById('modal-content');
+        const resultIconEl = document.getElementById('result-icon');
+        const resultTitleEl = document.getElementById('result-title');
+        const resultMessageEl = document.getElementById('result-message');
+        const closeModalBtn = document.getElementById('close-modal');
+        const headerEl = document.getElementById('header');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        
+        // 滚动监听，改变导航栏样式
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                headerEl.classList.add('py-2', 'shadow-lg');
+                headerEl.classList.remove('py-3', 'shadow-md');
+            } else {
+                headerEl.classList.add('py-3', 'shadow-md');
+                headerEl.classList.remove('py-2', 'shadow-lg');
+            }
+        });
+        
+        // 切换暗黑模式
+        let isDarkMode = false;
+        themeToggleBtn.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('bg-neutral-800', isDarkMode);
+            document.body.classList.toggle('text-white', isDarkMode);
+            document.body.classList.toggle('bg-neutral-100', !isDarkMode);
+            document.body.classList.toggle('text-neutral-700', !isDarkMode);
+            
+            const questionContainer = document.getElementById('question-container');
+            questionContainer.classList.toggle('bg-neutral-700', isDarkMode);
+            questionContainer.classList.toggle('bg-white', !isDarkMode);
+            
+            const explanationContainer = document.getElementById('explanation-container');
+            explanationContainer.classList.toggle('bg-neutral-600', isDarkMode);
+            explanationContainer.classList.toggle('bg-neutral-50', !isDarkMode);
+            
+            const optionLabels = document.querySelectorAll('.option-label');
+            optionLabels.forEach(label => {
+                label.classList.toggle('border-neutral-500', isDarkMode);
+                label.classList.toggle('border-neutral-200', !isDarkMode);
+                label.classList.toggle('hover:bg-neutral-600', isDarkMode);
+                label.classList.toggle('hover:bg-primary/5', !isDarkMode);
+            });
+            
+            const themeIcon = themeToggleBtn.querySelector('i');
+            if (isDarkMode) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+        
+        // 渲染当前题目
+        function renderCurrentQuestion() {
+            const question = questions[currentQuestionIndex];
+            
+            // 更新题目编号和文本
+            questionNumberEl.textContent = question.id;
+            questionTextEl.textContent = question.text;
+            currentQuestionEl.textContent = question.id;
+            
+            // 清空选项容器
+            optionsContainerEl.innerHTML = '';
+            
+            // 渲染选项
+            question.options.forEach(option => {
+                const isSelected = userAnswers[currentQuestionIndex] === option.letter;
+                
+                const label = document.createElement('label');
+                label.className = `option-label block p-4 border border-neutral-200 rounded-lg cursor-pointer transition-all scale-hover ${isSelected ? 'border-primary bg-primary/5' : 'hover:border-primary hover:bg-primary/5'}`;
+                
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = 'question';
+                input.value = option.letter;
+                input.className = 'option-input mr-3';
+                input.checked = isSelected;
+                
+                const optionLetter = document.createElement('span');
+                optionLetter.className = 'option-letter font-medium';
+                optionLetter.textContent = `${option.letter}.`;
+                
+                const optionText = document.createElement('span');
+                optionText.className = 'option-text';
+                optionText.textContent = option.text;
+                
+                label.appendChild(input);
+                label.appendChild(optionLetter);
+                label.appendChild(optionText);
+                
+                // 添加点击事件
+                label.addEventListener('click', () => {
+                    // 移除所有选项的选中状态
+                    document.querySelectorAll('.option-label').forEach(el => {
+                        el.classList.remove('border-primary', 'bg-primary/5');
+                        el.classList.add('hover:border-primary', 'hover:bg-primary/5');
+                    });
+                    
+                    // 添加当前选项的选中状态
+                    label.classList.remove('hover:border-primary', 'hover:bg-primary/5');
+                    label.classList.add('border-primary', 'bg-primary/5');
+                    
+                    // 记录用户答案
+                    userAnswers[currentQuestionIndex] = option.letter;
+                    
+                    // 更新下一题按钮状态
+                    nextBtn.disabled = false;
+                    
+                    // 显示结果弹窗
+                    showResultModal(option.letter === question.answer);
+                });
+                
+                optionsContainerEl.appendChild(label);
+            });
+            
+            // 更新上一题/下一题按钮状态
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.disabled = userAnswers[currentQuestionIndex] === null;
+            
+            // 更新进度条
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBarEl.style.width = `${progress}%`;
+            progressPercentageEl.textContent = `${Math.round(progress)}%`;
+            
+            // 隐藏解释区域
+            explanationContainerEl.classList.add('hidden');
+        }
+        
+        // 显示结果弹窗
+        function showResultModal(isCorrect) {
+            resultIconEl.className = isCorrect 
+                ? 'w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-4 bg-green-100 text-green-500' 
+                : 'w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-4 bg-red-100 text-red-500';
+            
+            resultIconEl.innerHTML = isCorrect 
+                ? '<i class="fa-solid fa-check text-3xl"></i>' 
+                : '<i class="fa-solid fa-times text-3xl"></i>';
+            
+            resultTitleEl.textContent = isCorrect ? '回答正确！' : '回答错误';
+            
+            resultMessageEl.textContent = isCorrect 
+                ? '做得好！继续加油。' 
+                : `正确答案是 ${questions[currentQuestionIndex].answer}。`;
+            
+            resultModalEl.classList.remove('hidden');
+            setTimeout(() => {
+                modalContentEl.classList.remove('scale-95', 'opacity-0');
+                modalContentEl.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            // 显示解释
+            explanationTextEl.textContent = questions[currentQuestionIndex].explanation;
+            explanationContainerEl.classList.remove('hidden');
+        }
+        
+        // 关闭结果弹窗
+        function closeResultModal() {
+            modalContentEl.classList.remove('scale-100', 'opacity-100');
+            modalContentEl.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                resultModalEl.classList.add('hidden');
+            }, 300);
+        }
+        
+        // 事件监听
+        prevBtn.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderCurrentQuestion();
+                
+                // 平滑滚动到顶部
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                renderCurrentQuestion();
+                
+                // 平滑滚动到顶部
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            } else {
+                // 完成所有题目，可以显示完成页面
+                alert('恭喜你完成了所有题目！');
+            }
+        });
+        
+        closeModalBtn.addEventListener('click', closeResultModal);
+        
+        // 初始化页面
+        renderCurrentQuestion();
+    </script>
+</body>
+</html>    
